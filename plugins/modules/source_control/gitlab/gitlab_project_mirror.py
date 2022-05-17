@@ -119,7 +119,7 @@ from ansible.module_utils.api import basic_auth_argument_spec
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib
 from ansible.module_utils.common.text.converters import to_native
 
-from ansible_collections.community.general.plugins.module_utils.gitlab import findGroup, findProject, gitlabAuthentication
+from ansible_collections.community.general.plugins.module_utils.gitlab import find_group, find_project, gitlab_authentication
 
 
 class GitLabProjectMirror(object):
@@ -192,7 +192,7 @@ class GitLabProjectMirror(object):
     '''
     def existsProject(self, path):
         # When project exists, object will be stored in self.projectObject.
-        project = findProject(self._gitlab, path)
+        project = find_project(self._gitlab, path)
         if project:
             self.projectObject = project
             return True
@@ -236,7 +236,7 @@ def main():
     if not HAS_GITLAB_PACKAGE:
         module.fail_json(msg=missing_required_lib("python-gitlab"), exception=GITLAB_IMP_ERR)
 
-    gitlab_instance = gitlabAuthentication(module)
+    gitlab_instance = gitlab_authentication(module)
 
     gitlab_project = GitLabProjectMirror(module, gitlab_instance)
 
